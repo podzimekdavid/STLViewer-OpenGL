@@ -1,9 +1,7 @@
-# PGRF3-I
+# PGRF3-II
 
-První úloha: zobrazení prostorové scény obsahující geometrického tělesa definované pomocí rovinného gridu trojúhelníků, s mapováním textury na povrchu, s osvětlením a vrženými stíny.
+Druhá úloha: načtení STL souboru, rozparsová a zobrazení modelu.
 
 
-
-![plot](./img.png)
 
 *2021 - David Podzimek (uhk\podzida1)*
