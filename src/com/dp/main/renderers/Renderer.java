@@ -7,7 +7,7 @@ import com.dp.main.holders.DisplayMode;
 import com.dp.main.holders.SceneState;
 import com.dp.main.holders.TransformState;
 import com.dp.main.managers.LocationManager;
-import com.dp.main.utils.STLBufferFactory;
+import com.dp.main.stl.STLBufferFactory;
 import lwjglutils.*;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -92,7 +92,7 @@ public class Renderer extends AbstractRenderer {
         List<Triangle> triangles = null;
 
         try {
-            triangles =STLParser.parseSTLFile(Path.of("E:\\3D print models\\rameno1.stl"));
+            triangles =STLParser.parseSTLFile(Path.of("E:\\3D print models\\Surgical_Mask_Strap_Remix.stl"));
             System.out.println("Count" + triangles.size());
         } catch (IOException e) {
             e.printStackTrace();
@@ -280,10 +280,10 @@ public class Renderer extends AbstractRenderer {
                     }
                     case GLFW_KEY_7 -> scene.switchLightType();
                     case GLFW_KEY_0 -> scene.switchPlate();
-                    case GLFW_KEY_UP -> offset = new Vec3D(offset.getX() + 0.1, offset.getY(), offset.getZ());
-                    case GLFW_KEY_DOWN -> offset = new Vec3D(offset.getX() - 0.1, offset.getY(), offset.getZ());
-                    case GLFW_KEY_LEFT -> offset = new Vec3D(offset.getX(), offset.getY() - 0.1, offset.getZ());
-                    case GLFW_KEY_RIGHT -> offset = new Vec3D(offset.getX(), offset.getY() + 0.1, offset.getZ());
+                    case GLFW_KEY_UP -> transform.rotateUp();
+                    case GLFW_KEY_DOWN -> transform.rotateDown();
+                    case GLFW_KEY_LEFT -> transform.rotateLeft();
+                    case GLFW_KEY_RIGHT -> transform.rotateRight();
                     case 333 -> transform.scaleDown();
                     case 334 -> transform.scaleUp();
                    case GLFW_KEY_B -> scene.switchAmbient();

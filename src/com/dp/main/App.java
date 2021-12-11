@@ -1,11 +1,9 @@
 package com.dp.main;
 
 import com.dp.main.renderers.Renderer;
-import com.dp.main.stl.STLParser;
-import com.dp.main.stl.Triangle;
+import com.dp.main.stl.STLFileLoader;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 public class App {
     public static void main(String[] args) throws IOException {
@@ -19,6 +17,7 @@ public class App {
         System.out.println("-------------------------------------------------");
         System.out.println("Count" + data.size());*/
 
+        STLFileLoader.load();
         new LwjglWindow(new Renderer());
     }
 }

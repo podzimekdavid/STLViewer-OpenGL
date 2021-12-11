@@ -1,4 +1,4 @@
-package com.dp.main.utils;
+package com.dp.main.stl;
 
 import com.dp.main.stl.Triangle;
 import lwjglutils.OGLBuffers;
