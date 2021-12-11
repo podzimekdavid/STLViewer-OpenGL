@@ -20,7 +20,7 @@ uniform float constantAttenuation, linearAttenuation, quadraticAttenuation;
 out vec4 outColor;
 
 void main() {
-    vec3 ambient = vec3(0.8)*amb;
+    vec3 ambient = vec3(0.5)*amb;
 
     float NdotL = max(0, dot(normalize(light), normalize(normal)));
     vec3 diffuse = vec3(NdotL * vec3(0.5))*dif;

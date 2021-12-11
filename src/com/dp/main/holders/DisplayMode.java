@@ -12,8 +12,6 @@ public class DisplayMode {
     private Mat4 perspectiveProjection;
     private Mat4 orthogonalProjection;
 
-  /*  private int width;
-    private int height;*/
 
     public DisplayMode(int width, int height) {
         polygonMode = GL_FILL;
