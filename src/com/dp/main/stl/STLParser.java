@@ -83,7 +83,7 @@ public class STLParser {
         return il;
     }
 
-   private static boolean isBinaryFile(byte[] allBytes) throws IllegalArgumentException {
+    private static boolean isBinaryFile(byte[] allBytes) throws IllegalArgumentException {
         if (allBytes.length < 84)
             throw new IllegalArgumentException("invalid binary file, length<84");
         int numTriangles = byteaToTnt(Arrays.copyOfRange(allBytes, 80, 84));
@@ -96,7 +96,7 @@ public class STLParser {
     }
 
 
-   private static int byteaToTnt(byte[] bytes) {
+    private static int byteaToTnt(byte[] bytes) {
         assert (bytes.length == 4);
         int r = 0;
         r = bytes[0] & 0xff;
@@ -144,7 +144,7 @@ public class STLParser {
                         vertices[v] = new Vec3D(vals[0], vals[1], vals[2]);
                     }
                     position = content.indexOf("endfacet", position) + "endfacet".length();
-                    triangles.add(new Triangle(vertices[0], vertices[1], vertices[2]));
+                    triangles.add(new Triangle(vertices[0], vertices[1], vertices[2], new Vec3D()));
                 } catch (Exception ex) {
                     int back = position - 128;
                     if (back < 0) {
@@ -180,6 +180,7 @@ public class STLParser {
                     for (int i = 0; i < nvec.length; i++) {
                         nvec[i] = Float.intBitsToFloat(Integer.reverseBytes(in.readInt()));
                     }
+                    Vec3D normal = new Vec3D(nvec[0], nvec[1], nvec[2]);
 
                     Vec3D[] vertices = new Vec3D[3];
                     for (int v = 0; v < vertices.length; v++) {
@@ -191,7 +192,7 @@ public class STLParser {
                     }
                     short attribute = Short.reverseBytes(in.readShort());
 
-                    triangles.add(new Triangle(vertices[0], vertices[1], vertices[2]));
+                    triangles.add(new Triangle(vertices[0], vertices[1], vertices[2], normal));
                 }
             } catch (Exception ex) {
                 throw new IllegalArgumentException("Malformed STL binary at triangle number " + (triangles.size() + 1), ex);

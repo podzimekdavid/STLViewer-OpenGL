@@ -2,13 +2,11 @@ package com.dp.main.renderers;
 
 import com.dp.main.stl.STLParser;
 import com.dp.main.stl.Triangle;
-import com.dp.main.utils.GridFactory;
 import com.dp.main.LwjglWindow;
 import com.dp.main.holders.DisplayMode;
 import com.dp.main.holders.SceneState;
 import com.dp.main.holders.TransformState;
 import com.dp.main.managers.LocationManager;
-import com.dp.main.managers.TextureManager;
 import com.dp.main.utils.STLBufferFactory;
 import lwjglutils.*;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
@@ -30,7 +28,6 @@ import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
 public class Renderer extends AbstractRenderer {
 
-    private static final String TEXTURE_VAR = "imageTexture";
     private static final String DEPTH_TEXTURE_VAR = "depthTexture";
 
     private OGLTexture2D plateTexture;
@@ -46,9 +43,7 @@ public class Renderer extends AbstractRenderer {
     private Mat4 projection;
 
     private float constAtt, linearAtt, qouAtt;
-    private float time;
 
-    private TextureManager textures;
     private DisplayMode displayMode;
     private SceneState scene;
     private TransformState transform;
@@ -79,7 +74,6 @@ public class Renderer extends AbstractRenderer {
         }
 
 
-        textures = new TextureManager();
         displayMode = new DisplayMode(height, width);
         scene = new SceneState();
         transform = new TransformState();
@@ -98,7 +92,7 @@ public class Renderer extends AbstractRenderer {
         List<Triangle> triangles = null;
 
         try {
-            triangles =STLParser.parseSTLFile(Path.of("E:\\3D print models\\drzak1.stl"));
+            triangles =STLParser.parseSTLFile(Path.of("E:\\3D print models\\rameno1.stl"));
             System.out.println("Count" + triangles.size());
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,78 +148,19 @@ public class Renderer extends AbstractRenderer {
         glUniformMatrix4fv(locationManager.getLocViewLight(), false, cameraLight.getViewMatrix().floatArray());
         glUniformMatrix4fv(locationManager.getLocProjectionLight(), false, projection.floatArray());
 
-        glUniform1f(locationManager.getTimeLightLoc(), time);
         glUniform3fv(locationManager.getOffsetLightLoc(), ToFloatArray.convert(offset));
-        ;
 
-   /*     glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().floatArray());
-        switch (scene.getSceneState()) {
-            case 0:
-                glUniform1i(locationManager.getLocSolidLight(), 1);
-                break;
-            case 1:
-                glUniform1i(locationManager.getLocSolidLight(), 4);
-                break;
-            case 2:
-                glUniform1i(locationManager.getLocSolidLight(), 5);
-                break;
-            case 3:
-                time += 0.01;
-                glUniform1i(locationManager.getLocSolidLight(), 3);
-                break;
-            case 4:
-                glUniform1i(locationManager.getLocSolidLight(), 7);
-                break;
-            case 5:
-                glUniform1i(locationManager.getLocSolidLight(), 8);
-                break;
-            case 6:
-                glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().mul(new Mat4Scale(0.09)).floatArray());
-                glUniform1i(locationManager.getLocSolidLight(), 9);
-                break;
-            case 7:
-                glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().mul(new Mat4Scale(0.8)).floatArray());
-                glUniform1i(locationManager.getLocSolidLight(), 8);
-                buffers.draw(displayMode.bufferType(), shaderProgramLight);
+        glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().floatArray());
+        buffers.draw(displayMode.bufferType(), shaderProgramViewer);
 
-                glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().mul(new Mat4Scale(0.5)).mul(new Mat4Transl(1.2, 0.9, 1.3)).floatArray());
-                glUniform1i(locationManager.getLocSolidLight(), 4);
-                break;
-            case 8:
-                glUniform1i(locationManager.getLocSolidLight(), 10);
-                break;
-            case 9:
-                glUniform1i(locationManager.getLocSolidLight(), 11);
-                break;
-            case 10:
-                glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().mul(new Mat4Scale(0.8)).floatArray());
-                glUniform1i(locationManager.getLocSolidLight(), 10);
-                buffers.draw(displayMode.bufferType(), shaderProgramLight);
-
-                glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().mul(new Mat4Scale(0.5)).mul(new Mat4Transl(1.2, 0.9, 1.3)).floatArray());
-                glUniform1i(locationManager.getLocSolidLight(), 11);
-                break;
-
-        }
-
-        buffers.draw(displayMode.bufferType(), shaderProgramLight);
-
-        if (scene.showPlate()) {
-            glUniformMatrix4fv(locationManager.getLocLightModel(), false, new Mat4Identity().floatArray());
-
-            glUniform1i(locationManager.getLocSolidLight(), 2);
-            buffers.draw(displayMode.bufferType(), shaderProgramLight);
-        }*/
 
     }
 
     private void renderFromViewer() {
         glUseProgram(shaderProgramViewer);
 
-        // výchozí framebuffer - render do obrazovky
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // nutno opravit viewport, protože render target si nastavuje vlastní
         glViewport(0, 0, width, height);
 
         glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -237,19 +172,16 @@ public class Renderer extends AbstractRenderer {
         glUniformMatrix4fv(locationManager.getLocProjection(), false, projection.floatArray());
         glUniformMatrix4fv(locationManager.getLocLightVP(), false, cameraLight.getViewMatrix().mul(projection).floatArray());
 
-        glUniform1f(locationManager.getTimeLoc(), time);
 
         glUniform1f(locationManager.getLocConstAtt(), constAtt);
         glUniform1f(locationManager.getLocLinearAtt(), linearAtt);
         glUniform1f(locationManager.getLocQouAtt(), qouAtt);
 
-        glUniform3fv(locationManager.getOffsetLoc(), ToFloatArray.convert(offset));
         glUniform3fv(locationManager.getLocReflector(), ToFloatArray.convert(cameraLight.getViewVector()));
 
         glUniform3fv(locationManager.getLocLightPosition(), ToFloatArray.convert(cameraLight.getPosition()));
         glUniform3fv(locationManager.getLocEyePosition(), ToFloatArray.convert(camera.getEye()));
 
-        glUniform1i(locationManager.getLightTypeLoc(), scene.isReflector());
         glUniform1i(locationManager.getLocAmbient(), scene.isAmbient());
         glUniform1i(locationManager.getLocDiffuse(), scene.isDiffuse());
         glUniform1i(locationManager.getLocSpecular(), scene.isSpecular());
@@ -259,74 +191,6 @@ public class Renderer extends AbstractRenderer {
         glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().floatArray());
         buffers.draw(displayMode.bufferType(), shaderProgramViewer);
 
-      /*  textures.getTexture("sun.jpg").bind(shaderProgramViewer, TEXTURE_VAR, 0);
-
-        glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getCameraTransformation(cameraLight.getPosition()).floatArray());
-        glUniform1i(locationManager.getLocSolid(), 1);
-        buffers.draw(displayMode.bufferType(), shaderProgramViewer);
-
-        //solids
-        textures.bindNextTexture(shaderProgramViewer, TEXTURE_VAR, 0);
-        glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().floatArray());
-        switch (scene.getSceneState()) {
-            case 0:
-                glUniform1i(locationManager.getLocSolid(), 1);
-                break;
-            case 1:
-                glUniform1i(locationManager.getLocSolid(), 4);
-                break;
-            case 2:
-                glUniform1i(locationManager.getLocSolid(), 5);
-                break;
-            case 3:
-                glUniform1i(locationManager.getLocSolid(), 3);
-                ;
-                break;
-            case 4:
-                glUniform1i(locationManager.getLocSolid(), 7);
-                break;
-            case 5:
-                glUniform1i(locationManager.getLocSolid(), 8);
-                break;
-            case 6:
-                glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().mul(new Mat4Scale(0.09)).floatArray());
-                glUniform1i(locationManager.getLocSolid(), 9);
-                break;
-            case 7:
-                glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().mul(new Mat4Scale(0.8)).floatArray());
-                glUniform1i(locationManager.getLocSolid(), 8);
-                buffers.draw(displayMode.bufferType(), shaderProgramViewer);
-
-                glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().mul(new Mat4Scale(0.5)).mul(new Mat4Transl(1.2, 0.9, 1.3)).floatArray());
-               glUniform1i(locationManager.getLocSolid(), 4);
-                break;
-            case 8:
-                glUniform1i(locationManager.getLocSolid(), 10);
-                break;
-            case 9:
-                glUniform1i(locationManager.getLocSolid(), 11);
-                break;
-            case 10:
-                glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().mul(new Mat4Scale(0.8)).floatArray());
-                glUniform1i(locationManager.getLocSolid(), 10);
-                buffers.draw(displayMode.bufferType(), shaderProgramViewer);
-
-                glUniformMatrix4fv(locationManager.getLocModel(), false, transform.getModel().mul(new Mat4Scale(0.5)).mul(new Mat4Transl(1.2, 0.9, 1.3)).floatArray());
-                glUniform1i(locationManager.getLocSolid(), 11);
-                break;
-        }
-        buffers.draw(displayMode.bufferType(), shaderProgramViewer);
-
-        if (scene.showPlate()) {
-            textures.getDefaultTexture().bind(shaderProgramViewer, TEXTURE_VAR, 0);
-            glUniformMatrix4fv(locationManager.getLocModel(), false, new Mat4Identity().floatArray());
-
-            glUniform1i(locationManager.getLocSolid(), 2);
-            buffers.draw(displayMode.bufferType(), shaderProgramViewer);
-        }
-
-
-*/
     }
 
     @Override
@@ -415,12 +279,6 @@ public class Renderer extends AbstractRenderer {
                         }
                     }
                     case GLFW_KEY_7 -> scene.switchLightType();
-                    case GLFW_KEY_8 -> {
-                        displayMode.bufferModeSwitch();
-
-                        buffers = GridFactory.createGrid(400, 400, displayMode.bufferType());
-                    }
-                    case GLFW_KEY_9 -> textures.switchTexture();
                     case GLFW_KEY_0 -> scene.switchPlate();
                     case GLFW_KEY_UP -> offset = new Vec3D(offset.getX() + 0.1, offset.getY(), offset.getZ());
                     case GLFW_KEY_DOWN -> offset = new Vec3D(offset.getX() - 0.1, offset.getY(), offset.getZ());

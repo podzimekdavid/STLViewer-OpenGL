@@ -13,7 +13,7 @@ public class STLBufferFactory {
 
     public static OGLBuffers createBuffer(List<Triangle> triangles) {
 
-        float[] vb = new float[triangles.size() * 3 * 3];
+        float[] vb = new float[triangles.size() * 3 * 3*3];
         int index = 0;
         int indexB=0;
 
@@ -24,6 +24,10 @@ public class STLBufferFactory {
                 vb[index++] = (float) vec.getX();
                 vb[index++] = (float) vec.getY();
                 vb[index++] = (float) vec.getZ();
+
+                vb[index++] = (float) triangle.getNormal().getX();
+                vb[index++] = (float) triangle.getNormal().getY();
+                vb[index++] = (float) triangle.getNormal().getZ();
 
                 ib[indexB]=indexB;
                 indexB++;
@@ -79,7 +83,8 @@ public class STLBufferFactory {
 */
 
         OGLBuffers.Attrib[] attributes = {
-                new OGLBuffers.Attrib("inPosition", 3)
+                new OGLBuffers.Attrib("inPosition", 3),
+                new OGLBuffers.Attrib("inNormal", 3)
         };
         return new OGLBuffers(vb, attributes, ib);
     }

@@ -7,12 +7,21 @@ import java.util.Arrays;
 public class Triangle {
         private final Vec3D[] vertices;
 
-        public Triangle(Vec3D v1, Vec3D v2, Vec3D v3) {
-            vertices = new Vec3D[3];
-            vertices[0] = v1;
-            vertices[1] = v2;
-            vertices[2] = v3;
-        }
+    public Vec3D getNormal() {
+        return normal;
+    }
+
+    private final Vec3D normal;
+
+
+    public Triangle(Vec3D v1, Vec3D v2, Vec3D v3, Vec3D normal) {
+        vertices = new Vec3D[3];
+        vertices[0] = v1;
+        vertices[1] = v2;
+        vertices[2] = v3;
+
+        this.normal=normal;
+    }
 
         @Override
         public String toString() {
