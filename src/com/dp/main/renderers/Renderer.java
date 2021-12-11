@@ -76,12 +76,6 @@ public class Renderer extends AbstractRenderer {
         linearAtt = 0.05f;
         qouAtt = 0.01f;
 
-        try {
-            plateTexture = new OGLTexture2D("textures/default.jpg");
-        } catch (Exception e) {
-
-        }
-
 
         displayMode = new DisplayMode(height, width);
         scene = new SceneState();
@@ -97,8 +91,6 @@ public class Renderer extends AbstractRenderer {
 
         locationManager.initViewLocation();
         locationManager.initLightLocation();
-
-        List<Triangle> triangles = null;
 
         renderTarget = new OGLRenderTarget(1024, 1024);
         viewer = new OGLTexture2D.Viewer();

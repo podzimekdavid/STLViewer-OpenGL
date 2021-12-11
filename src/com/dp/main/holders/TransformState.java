@@ -8,7 +8,7 @@ public class TransformState {
 
     public TransformState() {
         model = new Mat4Identity();
-        scale = 1;
+        scale = 0.01f;
         rotateZ = 0;
     }
 

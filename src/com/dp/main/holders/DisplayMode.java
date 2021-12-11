@@ -30,7 +30,7 @@ public class DisplayMode {
 
     public void polygonModeSwitch() {
 
-        if (polygonModeSwitchValue < 2)
+        if (polygonModeSwitchValue < 1)
             polygonModeSwitchValue++;
         else
             polygonModeSwitchValue = 0;
@@ -40,9 +40,6 @@ public class DisplayMode {
                 polygonMode = GL_FILL;
                 break;
             case 1:
-                polygonMode = GL_POINT;
-                break;
-            case 2:
                 polygonMode = GL_LINE;
                 break;
         }
@@ -66,7 +63,7 @@ public class DisplayMode {
     }
 
     private int colorModeValue = 0;
-    public static final int MAX_COLOR_MODE = 5;
+    public static final int MAX_COLOR_MODE = 1;
 
     public void colorModeSwitch() {
         if (colorModeValue < MAX_COLOR_MODE)

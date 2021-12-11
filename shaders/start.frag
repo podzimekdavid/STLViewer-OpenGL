@@ -43,18 +43,9 @@ void main() {
 
     switch (colorMode){
         case 0:
-        finalColor=vec4(0.1,0.1,0.3, 1.0);
-        break;
-        case 1:
-        finalColor=vec4(positionA, 1.0);
-        break;
-        case 2:
-        finalColor = vec4(depthTextureCoord.zzz, 1.0);
-        break;
-        case 3:
         finalColor = vec4(ambient+diffuse+specular, 1.0);
         break;
-        case 4:
+        case 1:
         finalColor = vec4(normalize(normal)+1, 1.0);
         break;
     }
