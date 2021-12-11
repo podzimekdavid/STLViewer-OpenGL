@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class STLFileLoader {
 
-    public static void load(){
+    public static STLFile load(boolean allowCancel){
 
         final JFileChooser fc = new JFileChooser();
 
@@ -14,14 +14,19 @@ public class STLFileLoader {
 
         do {
 
-        }while(fc.showOpenDialog(new Button("Open STL"))!=JFileChooser.APPROVE_OPTION);
+        }while(fc.showOpenDialog(new Button("Open STL"))!=JFileChooser.APPROVE_OPTION || allowCancel);
 
         try{
-            var file = STLParser.parseSTLFile(fc.getSelectedFile().toPath());
+            var path = fc.getSelectedFile().toPath();
+            var file = STLParser.parseSTLFile(path);
+
+            return  new STLFile(file, path);
+
         }catch (Exception e){
             System.out.println("Error load STL file!");
         }
 
+        return null;
 
     }
 

@@ -1,13 +1,11 @@
 package com.dp.main.renderers;
 
-import com.dp.main.stl.STLParser;
-import com.dp.main.stl.Triangle;
+import com.dp.main.stl.*;
 import com.dp.main.LwjglWindow;
 import com.dp.main.holders.DisplayMode;
 import com.dp.main.holders.SceneState;
 import com.dp.main.holders.TransformState;
 import com.dp.main.managers.LocationManager;
-import com.dp.main.stl.STLBufferFactory;
 import lwjglutils.*;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -55,9 +53,20 @@ public class Renderer extends AbstractRenderer {
     private LocationManager locationManager;
 
     private boolean lightCamera = false;
+    private STLFile file;
+
+    private void initStl(boolean allowCancel) {
+        file = STLFileLoader.load(false);
+
+        if (file != null)
+            buffers = STLBufferFactory.createBuffer(file.getTriangles());
+    }
 
     @Override
     public void init() {
+
+        initStl(false);
+
         OGLUtils.printOGLparameters();
         OGLUtils.printLWJLparameters();
         OGLUtils.printJAVAparameters();
@@ -91,14 +100,6 @@ public class Renderer extends AbstractRenderer {
 
         List<Triangle> triangles = null;
 
-        try {
-            triangles =STLParser.parseSTLFile(Path.of("E:\\3D print models\\Surgical_Mask_Strap_Remix.stl"));
-            System.out.println("Count" + triangles.size());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        buffers = STLBufferFactory.createBuffer(triangles);
         renderTarget = new OGLRenderTarget(1024, 1024);
         viewer = new OGLTexture2D.Viewer();
 
@@ -256,7 +257,7 @@ public class Renderer extends AbstractRenderer {
         @Override
         public void invoke(long window, int key, int scancode, int action, int mods) {
             if (action == GLFW_PRESS || action == GLFW_REPEAT) {
-               switch (key) {
+                switch (key) {
                     case GLFW_KEY_A -> camera = camera.left(0.1);
                     case GLFW_KEY_D -> camera = camera.right(0.1);
                     case GLFW_KEY_W -> camera = camera.forward(0.1);
@@ -279,6 +280,7 @@ public class Renderer extends AbstractRenderer {
                         }
                     }
                     case GLFW_KEY_7 -> scene.switchLightType();
+                    case GLFW_KEY_9 -> initStl(true);
                     case GLFW_KEY_0 -> scene.switchPlate();
                     case GLFW_KEY_UP -> transform.rotateUp();
                     case GLFW_KEY_DOWN -> transform.rotateDown();
@@ -286,9 +288,9 @@ public class Renderer extends AbstractRenderer {
                     case GLFW_KEY_RIGHT -> transform.rotateRight();
                     case 333 -> transform.scaleDown();
                     case 334 -> transform.scaleUp();
-                   case GLFW_KEY_B -> scene.switchAmbient();
-                   case GLFW_KEY_N -> scene.switchDiffuse();
-                   case GLFW_KEY_M -> scene.switchSpecular();
+                    case GLFW_KEY_B -> scene.switchAmbient();
+                    case GLFW_KEY_N -> scene.switchDiffuse();
+                    case GLFW_KEY_M -> scene.switchSpecular();
                 }
             }
         }
