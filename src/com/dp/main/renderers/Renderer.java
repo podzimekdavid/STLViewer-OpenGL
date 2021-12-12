@@ -3,7 +3,7 @@ package com.dp.main.renderers;
 import com.dp.main.stl.*;
 import com.dp.main.LwjglWindow;
 import com.dp.main.holders.DisplayMode;
-import com.dp.main.holders.SceneState;
+import com.dp.main.holders.LightState;
 import com.dp.main.holders.TransformState;
 import com.dp.main.managers.LocationManager;
 import lwjglutils.*;
@@ -13,9 +13,6 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import transforms.*;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -27,8 +24,6 @@ import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 public class Renderer extends AbstractRenderer {
 
     private static final String DEPTH_TEXTURE_VAR = "depthTexture";
-
-    private OGLTexture2D plateTexture;
 
     private double oldMx, oldMy;
     private boolean mousePressed;
@@ -43,7 +38,7 @@ public class Renderer extends AbstractRenderer {
     private float constAtt, linearAtt, qouAtt;
 
     private DisplayMode displayMode;
-    private SceneState scene;
+    private LightState scene;
     private TransformState transform;
 
     private OGLTexture.Viewer viewer;
@@ -56,7 +51,7 @@ public class Renderer extends AbstractRenderer {
     private STLFile file;
 
     private void initStl(boolean allowCancel) {
-        file = STLFileLoader.load(false);
+        file = STLFileLoader.load(allowCancel);
 
         if (file != null)
             buffers = STLBufferFactory.createBuffer(file.getTriangles());
@@ -78,7 +73,7 @@ public class Renderer extends AbstractRenderer {
 
 
         displayMode = new DisplayMode(height, width);
-        scene = new SceneState();
+        scene = new LightState();
         transform = new TransformState();
 
         offset = new Vec3D(0, 0, 0);
@@ -259,7 +254,6 @@ public class Renderer extends AbstractRenderer {
                     case GLFW_KEY_1 -> displayMode.polygonModeSwitch();
                     case GLFW_KEY_2 -> displayMode.debugModeSwitch();
                     case GLFW_KEY_3 -> displayMode.projectionModeSwitch();
-                    case GLFW_KEY_4 -> scene.switchScene();
                     case GLFW_KEY_5 -> displayMode.colorModeSwitch();
                     case GLFW_KEY_6 -> {
                         lightCamera = !lightCamera;
@@ -271,9 +265,7 @@ public class Renderer extends AbstractRenderer {
                             camera = viewCamera;
                         }
                     }
-                    case GLFW_KEY_7 -> scene.switchLightType();
                     case GLFW_KEY_9 -> initStl(true);
-                    case GLFW_KEY_0 -> scene.switchPlate();
                     case GLFW_KEY_UP -> transform.rotateUp();
                     case GLFW_KEY_DOWN -> transform.rotateDown();
                     case GLFW_KEY_LEFT -> transform.rotateLeft();
