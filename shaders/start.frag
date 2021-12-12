@@ -4,11 +4,9 @@ in vec3 normal;
 in vec3 light;
 in vec3 viewDirection;
 in vec4 depthTextureCoord;
-in vec3 positionA;
 in float dist;
 
 uniform sampler2D depthTexture;
-uniform sampler2D imageTexture;
 uniform int colorMode;
 
 uniform int amb;
@@ -20,7 +18,7 @@ uniform float constantAttenuation, linearAttenuation, quadraticAttenuation;
 out vec4 outColor;
 
 void main() {
-    vec3 ambient = vec3(0.5)*amb;
+    vec3 ambient = vec3(0.6)*amb;
 
     float NdotL = max(0, dot(normalize(light), normalize(normal)));
     vec3 diffuse = vec3(NdotL * vec3(0.5))*dif;

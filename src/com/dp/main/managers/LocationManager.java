@@ -18,7 +18,6 @@ public class LocationManager {
     private int locView, locProjection, locSolid, locLightPosition, locEyePosition, locLightVP;
     private int locViewLight, locProjectionLight, locSolidLight;
 
-    private int offsetLoc, offsetLightLoc;
 
     private int colorModeLoc;
 
@@ -46,14 +45,8 @@ public class LocationManager {
 
     private int locModel, locLightModel;
 
-    public int getLightTypeLoc() {
-        return lightTypeLoc;
-    }
-
-    private int lightTypeLoc;
 
     public void initLightLocation() {
-        offsetLightLoc = glGetUniformLocation(shaderProgramLight, "offset");
         timeLightLoc = glGetUniformLocation(shaderProgramLight, "time");
         locViewLight = glGetUniformLocation(shaderProgramLight, "view");
         locProjectionLight = glGetUniformLocation(shaderProgramLight, "projection");
@@ -77,10 +70,8 @@ public class LocationManager {
         locLightVP = glGetUniformLocation(shaderProgramViewer, "lightVP");
 
         timeLoc = glGetUniformLocation(shaderProgramViewer, "time");
-        offsetLoc = glGetUniformLocation(shaderProgramViewer, "offset");
 
         colorModeLoc = glGetUniformLocation(shaderProgramViewer, "colorMode");
-        lightTypeLoc = glGetUniformLocation(shaderProgramViewer, "isReflector");
 
         locAmbient = glGetUniformLocation(shaderProgramViewer, "amb");
         locDiffuse = glGetUniformLocation(shaderProgramViewer, "dif");
@@ -90,13 +81,6 @@ public class LocationManager {
 
     }
 
-    public int getTimeLoc() {
-        return timeLoc;
-    }
-
-    public int getTimeLightLoc() {
-        return timeLightLoc;
-    }
 
     public int getLocConstAtt() {
         return locConstAtt;
@@ -122,9 +106,6 @@ public class LocationManager {
         return locProjection;
     }
 
-    public int getLocSolid() {
-        return locSolid;
-    }
 
     public int getLocLightPosition() {
         return locLightPosition;
@@ -146,17 +127,6 @@ public class LocationManager {
         return locProjectionLight;
     }
 
-    public int getLocSolidLight() {
-        return locSolidLight;
-    }
-
-    public int getOffsetLoc() {
-        return offsetLoc;
-    }
-
-    public int getOffsetLightLoc() {
-        return offsetLightLoc;
-    }
 
     public int getColorModeLoc() {
         return colorModeLoc;

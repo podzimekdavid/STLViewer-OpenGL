@@ -43,8 +43,6 @@ public class Renderer extends AbstractRenderer {
 
     private OGLTexture.Viewer viewer;
 
-    private Vec3D offset;
-
     private LocationManager locationManager;
 
     private boolean lightCamera = false;
@@ -75,8 +73,6 @@ public class Renderer extends AbstractRenderer {
         displayMode = new DisplayMode(height, width);
         scene = new LightState();
         transform = new TransformState();
-
-        offset = new Vec3D(0, 0, 0);
 
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         shaderProgramViewer = ShaderUtils.loadProgram("/start");
@@ -135,8 +131,6 @@ public class Renderer extends AbstractRenderer {
 
         glUniformMatrix4fv(locationManager.getLocViewLight(), false, cameraLight.getViewMatrix().floatArray());
         glUniformMatrix4fv(locationManager.getLocProjectionLight(), false, projection.floatArray());
-
-        glUniform3fv(locationManager.getOffsetLightLoc(), ToFloatArray.convert(offset));
 
         glUniformMatrix4fv(locationManager.getLocLightModel(), false, transform.getModel().floatArray());
         buffers.draw(displayMode.bufferType(), shaderProgramViewer);
