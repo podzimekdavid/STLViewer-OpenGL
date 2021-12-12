@@ -16,7 +16,7 @@ Druhá úloha: načtení STL souboru, rozparsová a zobrazení modelu. Ukázkov�
 | Šipky       | Rotace         |
 | B,N,M       | Složky světla  |
 
-##Obrázky
+## Obrázky
 ![img 1](./1.png)
 ![img 2](./2.png)
 
