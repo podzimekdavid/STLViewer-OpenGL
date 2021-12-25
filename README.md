@@ -1,6 +1,6 @@
-# PGRF3-II
+# STLViewer
 
-Druhá úloha: načtení STL souboru, rozparsování a zobrazení modelu. ![STL soubory](https://en.wikipedia.org/wiki/STL_(file_format)) se dělí na dva druhy ASCII a Binární. Binnární STL soubor je implementovaný kompletně, ASCII částečně (příliš se nepoužívá). Ovládání viz. tabulka níže.
+Načtení STL souboru, rozparsování a zobrazení modelu. ![STL soubory](https://en.wikipedia.org/wiki/STL_(file_format)) se dělí na dva druhy ASCII a Binární. Binnární STL soubor je implementovaný kompletně, ASCII částečně (příliš se nepoužívá). Ovládání viz. tabulka níže.
 Ukázkové soubory pro načtení jsou v adresáři [STL FILES](https://github.com/podzimekdavid/STLViewer-OpenGL/tree/master/STL%20files).
 
 ## Ovládání
@@ -21,4 +21,4 @@ Ukázkové soubory pro načtení jsou v adresáři [STL FILES](https://github.co
 ![img 1](./1.png)
 ![img 2](./2.png)
 
-*2021 - David Podzimek (uhk\podzida1)*
+*2021 - David Podzimek*
