@@ -2,8 +2,7 @@
 
 **STLViewer** is a simple application for loading, parsing, and displaying 3D models from STL files using OpenGL.
 
-This project started as a fun experiment and exploration of the STL file format and OpenGL rendering. Later, I also used it as part of my university coursework in 2021.
-
+This project started as a fun experiment to better understand the STL file format and basic 3D rendering with OpenGL. While working on it, I learned how STL files are structured—especially the differences between binary and ASCII formats—and how to visualize them. Later, I reused the experience gained from this project in one of my university coursework assignments in 2021.
 
 STL (Stereolithography) files come in two formats: [ASCII and Binary](https://en.wikipedia.org/wiki/STL_(file_format)). This viewer fully supports Binary STL files and partially supports ASCII STL (due to its limited usage in practice).
 
@@ -34,7 +33,3 @@ Sample STL files can be found in the [STL FILES directory](https://github.com/po
 ![Screenshot 2](./2.png)
 
 ---
-
-Feel free to use or modify this project for educational purposes.  
-**Author:** David Podzimek  
-**Year:** 2021
